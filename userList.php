@@ -6,14 +6,28 @@
  * Author: Luke Beer
  * Usage: 'php userList.php [enterpriseID]' Leave [enterpriseID] null for system report
  */
+
+#error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
+error_reporting(E_ALL);
+
+echo "Begin...\n";
+
+echo "Including config...\n";
 require_once 'config.php';
+
+echo "Including progress bar...\n";
 require_once 'Console/ProgressBar.php';
+
+echo "Initial setup...\n";
 ini_set("max_execution_time", 0);
 date_default_timezone_set('Europe/London');
-error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
 Factory::getOCISchemaServiceProvider();
 Factory::getOCISchemaGroup();
+
+echo "Generating client...\n";
 $client = CoreFactory::getOCIClient(OCIP_HOST);
+
+echo "Login...\n";
 $client->login(OCIP_USER, OCIP_PASS);
 $client->setTimeout(60);
 $enterpriseId = $argv[1];
